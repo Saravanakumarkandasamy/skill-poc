@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
-  // basePath: "/skill-web-poc",
+  basePath: "/skill-poc",
 };
 module.exports = nextConfig;

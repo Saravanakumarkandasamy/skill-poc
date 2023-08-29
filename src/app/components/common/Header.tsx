@@ -42,8 +42,7 @@ const HeaderComp = () => {
           {menus.map((menu: any, index: any) => (
             <React.Fragment key={index}>
               <Link
-                // href={`/skill-web-poc${menu.link}`}
-                href={menu.link}
+                href={`/skill-poc${menu.link}`}
                 px={2}
                 fontSize={"sm"}
                 fontWeight={600}

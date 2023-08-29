@@ -192,7 +192,7 @@
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	!function() {
-/******/ 		__webpack_require__.h = function() { return "e5ef9abc2dd02b0f"; }
+/******/ 		__webpack_require__.h = function() { return "284b1e66ba2bf42b"; }
 /******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
@@ -701,7 +701,7 @@
 /******/ 	
 /******/ 	/* webpack/runtime/publicPath */
 /******/ 	!function() {
-/******/ 		__webpack_require__.p = "/_next/";
+/******/ 		__webpack_require__.p = "/skill-poc/_next/";
 /******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/react refresh */
