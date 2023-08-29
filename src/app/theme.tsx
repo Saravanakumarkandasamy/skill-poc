@@ -9,7 +9,15 @@ export default extendTheme({
         },
       },
     },
+    Radio: {
+      baseStyle: {
+        label: {
+          fontSize: "14px",
+        },
+      },
+    },
   },
+
   colors: {
     primary: "#21cdaa",
     secondary: "#0A1931",
