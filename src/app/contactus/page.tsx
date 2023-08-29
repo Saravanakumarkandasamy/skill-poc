@@ -20,9 +20,9 @@ const ContactUsPage = () => {
     mobileNumber: "",
   });
   const [isNameError, setIsNameError] = useState<boolean>(false);
-  const [isEmailError, setIsEmailError] = useState<boolean>(false);
-  const [isPhoneNumberError, setIsPhoneNumberError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState("");
 
+  const [mobileNumberError, setMobileNumberError] = useState("");
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -31,17 +31,35 @@ const ContactUsPage = () => {
     }));
   };
 
+  const validateMobileNumber = (mobilevalue: any) => {
+    const isValid = /^[6-9]\d{9}$/.test(mobilevalue);
+    return isValid;
+  };
+  const validateEmail = (emailvalue: any) => {
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailvalue);
+    return isValid;
+  };
   const handleSubmit = (e: any) => {
     e.preventDefault();
     {
-      formData.name == "" && setIsNameError(true);
+      formData.name == "" ? setIsNameError(true) : setIsNameError(false);
     }
+
+    const emailvalue = formData.email;
+    const mobilevalue = formData.mobileNumber;
+
     {
-      formData.email == "" && setIsEmailError(true);
+      !validateMobileNumber(mobilevalue)
+        ? setMobileNumberError("Please enter a valid mobile number.")
+        : setMobileNumberError("");
     }
+
     {
-      formData.mobileNumber == "" && setIsPhoneNumberError(true);
+      !validateEmail(emailvalue)
+        ? setEmailError("Please enter a valid email address.")
+        : setEmailError("");
     }
+
     console.log(formData);
   };
 
@@ -62,7 +80,12 @@ const ContactUsPage = () => {
         </Text>
         <form onSubmit={handleSubmit} style={{ width: "100%" }}>
           <FormControl id="name" mb={2}>
-            <FormLabel fontSize={"sm"}>Name</FormLabel>
+            <FormLabel fontSize={"sm"}>
+              Name{" "}
+              <Text fontSize={"xs"} color={"red.400"} as={"span"}>
+                *
+              </Text>
+            </FormLabel>
             <Input
               type="text"
               name="name"
@@ -77,7 +100,12 @@ const ContactUsPage = () => {
             )}
           </FormControl>
           <FormControl id="email" mb={2}>
-            <FormLabel fontSize={"sm"}>Email</FormLabel>
+            <FormLabel fontSize={"sm"}>
+              Email{" "}
+              <Text fontSize={"xs"} color={"red.400"} as={"span"}>
+                *
+              </Text>
+            </FormLabel>
             <Input
               type="email"
               name="email"
@@ -85,24 +113,30 @@ const ContactUsPage = () => {
               onChange={handleInputChange}
               fontSize={"sm"}
             />
-            {isEmailError && (
+
+            {emailError && (
               <Text as={"p"} fontSize={"12px"} color={"red.400"}>
-                Email is required.
+                {emailError}
               </Text>
             )}
           </FormControl>
           <FormControl id="mobileNumber" mb={2}>
-            <FormLabel fontSize={"sm"}>Mobile Number</FormLabel>
+            <FormLabel fontSize={"sm"}>
+              Mobile Number{" "}
+              <Text fontSize={"xs"} color={"red.400"} as={"span"}>
+                *
+              </Text>
+            </FormLabel>
             <Input
-              type="tel"
+              type="number"
               name="mobileNumber"
               value={formData.mobileNumber}
               onChange={handleInputChange}
               fontSize={"sm"}
             />
-            {isPhoneNumberError && (
+            {mobileNumberError && (
               <Text as={"p"} fontSize={"12px"} color={"red.400"}>
-                Mobile number is required.
+                {mobileNumberError}{" "}
               </Text>
             )}
           </FormControl>
