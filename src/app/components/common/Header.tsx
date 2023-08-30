@@ -43,14 +43,14 @@ const HeaderComp = () => {
             <React.Fragment key={index}>
               <Link
                 href={`/skill-poc${menu.link}`}
-                px={2}
+                p={2}
                 fontSize={"sm"}
                 fontWeight={600}
                 ml={4}
                 _hover={{
-                  bg: "#dfedff",
+                  bg: "#ffe6d5",
                   borderRadius: "4px",
-                  color: "#115dd3",
+                  color: "#dd6b20",
                 }}
               >
                 {menu.name}

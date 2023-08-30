@@ -12,19 +12,22 @@ import {
   Textarea,
   Radio,
   RadioGroup,
-  extendTheme,
+  Checkbox,
+  HStack,
 } from "@chakra-ui/react";
-
-import { AddIcon, AttachmentIcon } from "@chakra-ui/icons";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { AddIcon } from "@chakra-ui/icons";
+const companyAccess = ["Courses", "Projects", "Portal"];
 const ContactUsPage = () => {
-  const [isNameError, setIsNameError] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState("");
-
   const [mobileNumberError, setMobileNumberError] = useState("");
   const [modeselectedValue, setModeSelectedValue] = useState("call_me");
   const [fileName, setFileName] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fileError, setFileError] = useState("");
+  const [startDateAvailable, setstartDateAvailable] = useState(new Date());
+  const [dateRange, setDateRange] = useState([null, null]);
+  const [startDate, endDate] = dateRange;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,8 +35,27 @@ const ContactUsPage = () => {
     remarks: "",
     selectedValue: modeselectedValue,
     docfile: "",
+    avaliabledate: startDateAvailable,
   });
 
+  const [isNameError, setIsNameError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [checkedItems, setCheckedItems] = useState([]);
+
+  const handleCheckboxChangeMulti = (item: string) => {
+    if (checkedItems.includes(item)) {
+      setCheckedItems(
+        checkedItems.filter((checkedItem) => checkedItem !== item)
+      );
+    } else {
+      setCheckedItems([...checkedItems, item]);
+    }
+  };
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
   const handleRadioChange = (value: any) => {
     formData.selectedValue = value;
   };
@@ -59,13 +81,11 @@ const ContactUsPage = () => {
 
   const handleFileUpload = () => {
     if (selectedFile) {
-      console.log("File uploaded:", selectedFile);
       formData.docfile = selectedFile;
     } else {
       setFileError("Please select file");
     }
   };
-
   const validateMobileNumber = (mobilevalue: any) => {
     const isValid = /^[6-9]\d{9}$/.test(mobilevalue);
     return isValid;
@@ -97,6 +117,8 @@ const ContactUsPage = () => {
     }
 
     setModeSelectedValue(modeselectedValue);
+    handleFileUpload();
+    formData.avaliabledate = startDateAvailable;
     console.log(formData);
   };
 
@@ -106,9 +128,29 @@ const ContactUsPage = () => {
       flexDirection={"column"}
       alignItems={"center"}
       justifyContent={"center"}
+      bg={"#ffe6d5"}
     >
-      <VStack align="start" boxShadow={"lg"} p={5} w={"500px"}>
-        <Text as={"h2"} mb={0} fontWeight={700} fontSize={"xl"}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `.react-datepicker-wrapper {width: 100%;} .date-picker-form{outline: none; width:100%}`,
+        }}
+      />
+      <VStack
+        align="start"
+        boxShadow={"lg"}
+        p={5}
+        w={"500px"}
+        mb={10}
+        bg={"white"}
+        borderRadius={5}
+      >
+        <Text
+          as={"h2"}
+          mb={0}
+          fontWeight={700}
+          fontSize={"xl"}
+          color={"#dd6b20"}
+        >
           Contact Us
         </Text>
         <Text as={"p"} mb={3} color={"gray.400"} fontSize={"sm"}>
@@ -184,6 +226,56 @@ const ContactUsPage = () => {
               </Text>
             )}
           </FormControl>
+          <FormControl id="mobileNumber" minH={"90px"}>
+            <FormLabel fontSize={"sm"} mb={1}>
+              Available Date{" "}
+              {/* <Text fontSize={"xs"} color={"red.400"} as={"span"}>
+                *
+              </Text> */}
+            </FormLabel>
+            <Box
+              border={"1px solid #e2e8f0"}
+              borderRadius={5}
+              p={2}
+              fontSize={"sm"}
+            >
+              <DatePicker
+                selected={startDateAvailable}
+                onChange={(date: any) => {
+                  setstartDateAvailable(date);
+                }}
+                showTimeSelect
+                dateFormat="Pp"
+                isClearable
+                placeholderText="Select date and time"
+                className="date-picker-form"
+              />
+            </Box>
+          </FormControl>
+          <FormControl id="mobileNumber" minH={"90px"}>
+            <FormLabel fontSize={"sm"} mb={1}>
+              Start Date and End Date
+            </FormLabel>
+            <Box
+              border={"1px solid #e2e8f0"}
+              borderRadius={5}
+              p={2}
+              fontSize={"sm"}
+            >
+              <DatePicker
+                selectsRange={true}
+                startDate={startDate}
+                endDate={endDate}
+                onChange={(update: any) => {
+                  setDateRange(update);
+                }}
+                isClearable={true}
+                placeholderText="Select start and end date"
+                className="date-picker-form"
+              />
+            </Box>
+          </FormControl>
+
           <FormControl id="email" minH={"70px"}>
             <FormLabel fontSize={"sm"} mb={1}>
               Mode of contact{" "}
@@ -220,16 +312,19 @@ const ContactUsPage = () => {
           </FormControl>
           <FormControl id="remarks" minH={"90px"}>
             <FormLabel fontSize={"sm"} mb={1}>
-              Document{" "}
+              Resume Upload{" "}
+              <Text fontSize={"xs"} color={"red.400"} as={"span"}>
+                *
+              </Text>
               <Text as={"span"} fontSize={"10px"} color={"gray.500"}>
                 (File size should be less than 5 MB)
               </Text>
             </FormLabel>
             <Flex>
               <Flex
-                w={"90%"}
+                w={"100%"}
                 border={"1px solid #e2e8f0"}
-                borderLeftRadius={5}
+                borderRadius={5}
                 alignItems={"center"}
               >
                 <label
@@ -269,15 +364,38 @@ const ContactUsPage = () => {
                 border={"1px solid #e2e8f0"}
                 style={{ display: "none" }}
               />
-              <Button onClick={handleFileUpload} borderLeftRadius={0}>
+              {/* <Button onClick={handleFileUpload} borderLeftRadius={0}>
                 <AttachmentIcon />
-              </Button>
+              </Button> */}
             </Flex>
             {fileError && (
               <Text as={"p"} fontSize={"12px"} color={"red.400"}>
                 {fileError}
               </Text>
             )}
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize={"sm"} mb={1}>
+              Access required for
+            </FormLabel>
+            <HStack spacing={2} mb={4}>
+              {companyAccess.map((item) => (
+                <Checkbox
+                  key={item}
+                  isChecked={checkedItems.includes(item)}
+                  onChange={() => handleCheckboxChangeMulti(item)}
+                >
+                  <Text fontSize={"sm"}>{item}</Text>
+                </Checkbox>
+              ))}
+              {/* <p>Checked Items: {checkedItems.join(", ")}</p> */}
+            </HStack>
+          </FormControl>
+          <FormControl id="remarks" mb={6}>
+            <Checkbox isChecked={isChecked} onChange={handleCheckboxChange}>
+              <Text fontSize={"sm"}>I Agree to the terms and conditions</Text>
+            </Checkbox>
+            {/* <p>Is Checked: {isChecked.toString()}</p> */}
           </FormControl>
           <Box textAlign={"right"}>
             <Button type="submit" colorScheme="blue" mt={3} fontSize={"sm"}>

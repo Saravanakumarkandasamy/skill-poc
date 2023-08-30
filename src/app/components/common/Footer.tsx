@@ -1,18 +1,53 @@
-import { Container, Text } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  Box,
+  Flex,
+  Text,
+  Link,
+  IconButton,
+  Spacer,
+} from "@chakra-ui/react";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 
 const FooterComp = () => {
   return (
-    <Container
-      textAlign={"center"}
-      bg={"gray.400"}
-      maxW={"100vw"}
-      w={"100vw"}
-      p={1}
-      position={"fixed"}
-      bottom={0}
+    <Flex
+      as="footer"
+      align="center"
+      justify="space-between"
+      py={4}
+      px={8}
+      bg="gray.800"
+      color="white"
     >
-      <Text>All Rights Reserved</Text>
-    </Container>
+      <Text>&copy; 2023 Skill-Lync . All rights reserved.</Text>
+      <Spacer />
+      <Box>
+        <IconButton
+          as={Link}
+          href="#"
+          aria-label="Facebook"
+          colorScheme="blue"
+          icon={<FaFacebook />}
+        />
+        <IconButton
+          as={Link}
+          href="#"
+          aria-label="Twitter"
+          colorScheme="blue"
+          icon={<FaTwitter />}
+          ml={2}
+        />
+        <IconButton
+          as={Link}
+          href="#"
+          aria-label="Instagram"
+          colorScheme="blue"
+          icon={<FaInstagram />}
+          ml={2}
+        />
+      </Box>
+    </Flex>
   );
 };
 

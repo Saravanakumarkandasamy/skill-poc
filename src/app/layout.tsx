@@ -23,7 +23,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <HeaderComp />
-          <Box minH={"calc(100vh - 110px)"} bg={"#FFF"} pt={"60px"}>
+          <Box minH={"calc(100vh - 110px)"} bg={"#FFF"} pt={"70px"}>
             {children}
           </Box>
           <FooterComp />
