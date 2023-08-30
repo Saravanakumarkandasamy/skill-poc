@@ -42,12 +42,12 @@ const ContactUsPage = () => {
   const [emailError, setEmailError] = useState("");
   const [fileError, setFileError] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const [checkedItems, setCheckedItems] = useState([]);
+  const [checkedItems, setCheckedItems] = useState<any>([]);
 
   const handleCheckboxChangeMulti = (item: string) => {
     if (checkedItems.includes(item)) {
       setCheckedItems(
-        checkedItems.filter((checkedItem) => checkedItem !== item)
+        checkedItems.filter((checkedItem: string) => checkedItem !== item)
       );
     } else {
       setCheckedItems([...checkedItems, item]);
